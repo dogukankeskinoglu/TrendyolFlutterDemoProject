@@ -8,9 +8,6 @@ var cartItems = [
       isSelected: true),
   CartItem(2, "Black Sokak", "", "Erkek Tisört", 2, 80, 160),
   CartItem(3, "Trendyol", "Kargo Bedava", "Kol Saati", 1, 260, 260),
-  CartItem(4, "Trendyol", "Hızlı Teslimat", "Futbol Topu", 1, 92, 92),
-  CartItem(5, "Trendyol", "Kargo Bedava", "Erkek Sweat", 1, 61, 61),
-  CartItem(6, "Black Sokak", "", "Erkek Tisört", 2, 70, 140),
 ];
 
 var otherProducts = [

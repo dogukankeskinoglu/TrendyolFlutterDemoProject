@@ -29,35 +29,65 @@ class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(50),
-        child: CustomAppBar(title: "Sepetim - ${cartItems.length} ürün"),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        resizeToAvoidBottomInset: false,
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(50),
+          child: CustomAppBar(title: "Sepetim - ${cartItems.length} ürün"),
+        ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Visibility(
-              visible: cartViewModel.isVisibleCartProducts(),
-              child: Expanded(
-                flex: 2,
-                child: buildCartListView(),
-              ),
-            ),
-            Visibility(
-              visible: cartViewModel.isVisibleOtherProduct(),
-              child: Expanded(
+            Flexible(
+              child: SingleChildScrollView(
                 child: Padding(
-                  padding: EdgeInsets.only(top: 10),
-                  child: buildOtherProductContainer(),
+                  padding: const EdgeInsets.all(8),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Flexible(child: buildCartListView()),
+                      Flexible(child: buildOtherProductContainer()),
+                    ],
+                  ),
                 ),
               ),
             ),
-            CustomButton(
-              text: approveCart,
-              onPressed: () {},
+            buildApproveCartView()
+          ],
+        ));
+  }
+
+  Container buildApproveCartView() {
+    return Container(
+      decoration: BoxDecoration(
+        color: colorOnPrimary,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Toplam"),
+                Text(
+                  "31.12 TL",
+                  style: TextStyle(
+                      color: colorPrimary, fontWeight: FontWeight.bold),
+                ),
+              ],
             ),
+            TextButton(
+              style: TextButton.styleFrom(
+                  backgroundColor: colorPrimary,
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 64)),
+              onPressed: () {},
+              child: Text(
+                "Sepeti Onayla",
+                style: TextStyle(color: colorOnPrimary),
+              ),
+            )
           ],
         ),
       ),
@@ -66,6 +96,7 @@ class _CartPageState extends State<CartPage> {
 
   Container buildOtherProductContainer() {
     return Container(
+      height: 200,
       decoration: BoxDecoration(
         color: colorOnPrimary,
         borderRadius: const BorderRadius.only(
@@ -122,6 +153,7 @@ class _CartPageState extends State<CartPage> {
         width: 10,
       ),
       itemCount: tabTitles.length,
+      shrinkWrap: true,
       scrollDirection: Axis.horizontal,
       itemBuilder: (BuildContext context, int index) {
         var item = tabTitles[index];
@@ -152,6 +184,8 @@ class _CartPageState extends State<CartPage> {
         return getDivider();
       },
       itemCount: cartItems.length,
+      shrinkWrap: true,
+      physics: const BouncingScrollPhysics(),
       itemBuilder: (context, index) => CartItemsCart(
         item: cartItems[index],
         onProductClicked: (itemId) {
